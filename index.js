@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 // レンダラーを作成
 const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector("#mycanvas")
+    canvas: document.querySelector("#myCanvas")
 });
 const width = 960;
 const height = 540;
@@ -23,26 +23,33 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0, 0, 1000); // カメラの初期位置（X座標,Y座標,Z座標）
 
 // 形状を作成(ジオメトリ)
-const geometry = new THREE.BoxGeometry(300, 300, 300) // 幅、高さ、奥行き
+// const geometry = new THREE.BoxGeometry(300, 300, 300) // 幅、高さ、奥行き
+const geometry = new THREE.SphereGeometry(300, 300, 300) // 幅、高さ、奥行き
+
+// 画像を読み込む
+const loader = new THREE.TextureLoader();
+const texture = loader.load("./img/jupitermap.jpg");
+texture.colorSpace = THREE.SRGBColorSpace; //カラースペースを指定。コントラストが低くなるのを回避
 
 // 色、質感を作成(マテリアル)
 const material = new THREE.MeshStandardMaterial({
-    color: 0x0000ff
+    // color: 0xff0000
+    map: texture
 })
 
-// ボックスを作成（メッシュ）
-const box = new THREE.Mesh(geometry, material); // ジオメトリ,マテリアル
+// メッシュを作成
+const mesh = new THREE.Mesh(geometry, material); // ジオメトリ,マテリアル
 
 // シーンにメッシュを追加
-scene.add(box);
+scene.add(mesh);
 
 // ライトを追加
-const light = new THREE.DirectionalLight(0xffffff0); //平行光源
-light.intesity = 2; //光の強さを2倍に
-light.position.set(1, 1, 1); // ライトの方向
+const directionalLight = new THREE.DirectionalLight(0xffffff0); //平行光源
+// directionalLight.intesity = 2; //光の強さを2倍に
+directionalLight.position.set(1, 1, 1); // ライトの方向
 
 // シーンにライトを追加
-scene.add(light);
+scene.add(directionalLight);
 
 // 描写する
 tick();
@@ -51,8 +58,8 @@ function tick() {
     requestAnimationFrame(tick);
 
     // 箱を回転させる
-    box.rotation.x += 0.01;
-    box.rotation.y += 0.01;
+    // mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.003;
 
     // レンダリング
     renderer.render(scene, camera);
