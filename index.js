@@ -23,18 +23,18 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(0, 0, 1000); // カメラの初期位置（X座標,Y座標,Z座標）
 
 // 形状を作成(ジオメトリ)
-// const geometry = new THREE.BoxGeometry(300, 300, 300) // 幅、高さ、奥行き
-const geometry = new THREE.SphereGeometry(300, 300, 300) // 幅、高さ、奥行き
+const geometry = new THREE.BoxGeometry(300, 300, 300) // 幅、高さ、奥行き
+// const geometry = new THREE.SphereGeometry(300, 30, 30) // 幅、高さ、奥行き
 
-// 画像を読み込む
-const loader = new THREE.TextureLoader();
-const texture = loader.load("./img/jupitermap.jpg");
-texture.colorSpace = THREE.SRGBColorSpace; //カラースペースを指定。コントラストが低くなるのを回避
+// // 画像を読み込む
+// const loader = new THREE.TextureLoader();
+// const texture = loader.load("./img/jupitermap.jpg");
+// texture.colorSpace = THREE.SRGBColorSpace; //カラースペースを指定。コントラストが低くなるのを回避
 
 // 色、質感を作成(マテリアル)
 const material = new THREE.MeshStandardMaterial({
-    // color: 0xff0000
-    map: texture
+    color: 0xff0000
+    // map: texture
 })
 
 // メッシュを作成
@@ -59,7 +59,7 @@ function tick() {
 
     // 箱を回転させる
     // mesh.rotation.x += 0.01;
-    mesh.rotation.y += 0.003;
+    mesh.rotation.y += 0.01;
 
     // レンダリング
     renderer.render(scene, camera);
